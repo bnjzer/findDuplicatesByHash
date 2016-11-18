@@ -1,22 +1,24 @@
-#include <linux/limits.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "stack.h"
 
-stack_node* stack_add (stack_node* node, char* path) {
-  stack_node* newNode = (stack_node*) malloc (sizeof(stack_node));
-  strcpy (newNode->path, path);
+StackNode* stack_add(StackNode* node, char* path) {
+  StackNode* newNode = (StackNode*) malloc(sizeof(StackNode));
+  strcpy(newNode->path, path);
   newNode->next = node;
   return newNode;
 }
 
-stack_node* stack_pop (stack_node* node, char* destPath) {
-  strcpy (destPath, node->path);
-  stack_node* next = node->next;
+StackNode* stack_pop(StackNode* node, char* destPath) {
+  if(node == NULL) return NULL;
+
+  strcpy(destPath, node->path);
+  StackNode* next = node->next;
   free(node);
   return next;
 }
 
-int stack_isEmpty (stack_node* node) {
+int stack_isEmpty(StackNode* node) {
   return node == NULL;
 }

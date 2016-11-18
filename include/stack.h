@@ -1,10 +1,12 @@
-typedef char Path[PATH_MAX];
+#include <linux/limits.h>
+
+typedef char Path[PATH_MAX + 1];
 
 typedef struct stack_node {
-  Path path;
   struct stack_node* next;
-} stack_node;
+  Path path;
+} StackNode;
 
-stack_node* stack_add (stack_node* node, char* path);
-stack_node* stack_pop (stack_node* node, char* destPath);
-int stack_isEmpty (stack_node* node);
+StackNode* stack_add(StackNode* node, char* path);
+StackNode* stack_pop(StackNode* node, char* destPath);
+int stack_isEmpty(StackNode* node);
