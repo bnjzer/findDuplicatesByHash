@@ -1,10 +1,6 @@
 # findDuplicatesByHash
 
-Program that finds duplicates in a directory recursively based on the hash of files (md5sum). It can also find duplicates recursively between 2 directories.  
-
-To do that, it browses through the directory and builds a [trie](https://en.wikipedia.org/wiki/Trie) where the path of a leaf is the md5sum of the file. When adding a hash to the trie, if it's already there then the 2 paths are displayed.  
-
-If the program is used with 2 directories, for each file of the second directory it just checks if its md5sum is in the trie.
+Program that finds duplicates in a directory (or 2) recursively based on the hash of files (md5sum). To do that it builds a [trie](https://en.wikipedia.org/wiki/Trie) where the path of a leaf is the hash of a file.  
 
 ## Usage
 
@@ -56,16 +52,17 @@ $ ./bin/findDuplicatesByHash /tmp/dir1/ /tmp/dir2/
 
 All the files contained in the directory (recursively) will be stored in the trie in RAM. Each node in the trie stores 37 pointers :
 - 1 pointer to `char` so that the leaves can point to the path of the file it represents
-- 26 (letters) + 10 (digits) = 36 pointers to another node (child) in order to build the tree
+- 26 (letters) + 10 (digits) = 36 pointers to another node (child) in order to build the tree  
+
 On a 64-bit machine a pointer is stored with 8 bytes, so a node requires 37 * 8 = 296 bytes of RAM.
 
 Let's say the directory has 10 000 files, there needs 296 * 10 000 = 2.9 GB of RAM to store the trie (actually less because there will be some nodes in common in the trie but still).  
 
-If there is a lot of files it will require a lot of time to compute all the hashes as well.  
+What's more if there is a lot of files it will require a lot of time to compute all the hashes.  
 
 We must be aware of that when using this program.  
 
-When using it with 2 directories, the smartest thing to do is to pass the directoriy with the most files as the first argument.
+When using it with 2 directories, the smartest thing to do is to pass the directory with the most files as the first argument.
 
 ## Requirements to compile
 
