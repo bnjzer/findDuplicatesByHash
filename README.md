@@ -50,15 +50,17 @@ $ ./bin/findDuplicatesByHash /tmp/dir1/ /tmp/dir2/
 
 ## Limits
 
+*This program is not efficient in term of memory usage as it was developped for educational purposes with the use of a prefix tree.*  
+
 All the files contained in the directory (recursively) will be stored in the trie in RAM. Each node in the trie stores 37 pointers :
 - 1 pointer to `char` so that the leaves can point to the path of the file it represents
 - 26 (letters) + 10 (digits) = 36 pointers to another node (child) in order to build the tree  
 
-On a 64-bit machine a pointer is stored with 8 bytes, so a node requires 37 * 8 = 296 bytes of RAM.
+On a 64-bit MACHINE a pointer is stored with 8 bytes, so a node requires 37 * 8 = 296 bytes of RAM for these pointers. A leaf path is made up of 32 nodes (md5 length) and the leaf requires at most 4096 bytes (`PATH_MAX`) to store the file path. So each files requires 32 * 296 + 4096 = 13 KB of RAM.
 
-Let's say the directory has 10 000 files, there needs 296 * 10 000 = 2.9 GB of RAM to store the trie (actually less because there will be some nodes in common in the trie but still).  
+Let's say the directory has 100 000 files, there needs 1.3 GB of RAM to store the trie (actually less because there will be some nodes in common in the trie but still).  
 
-What's more if there is a lot of files it will require a lot of time to compute all the hashes.  
+Also if there is a lot of files it will require a lot of time to compute all the hashes.  
 
 We must be aware of that when using this program.  
 
