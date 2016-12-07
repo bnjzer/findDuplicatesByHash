@@ -23,10 +23,8 @@ void trie_insert(TrieNode* node, char* remainingHash, char* path) {
     }
   } else {
     int idx = getIndex(*remainingHash);
-    if (node->children[idx] == NULL) {
-      node->children[idx] = (TrieNode*) malloc(sizeof(TrieNode));
-      memset(node->children[idx], 0, sizeof(TrieNode));
-    }
+    if (node->children[idx] == NULL)
+      node->children[idx] = (TrieNode*) calloc(1, sizeof(TrieNode));
     trie_insert(node->children[idx], remainingHash + 1, path);
   }
 }
